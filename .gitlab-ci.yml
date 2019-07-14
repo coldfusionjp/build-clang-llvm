@@ -22,7 +22,7 @@ build:
   services:
     - docker:dind
   tags:
-    - linux-a1.4xlarge
+    - linux-c5.4xlarge
 
 test:
   stage: test
@@ -39,7 +39,7 @@ test:
   services:
     - docker:dind
   tags:
-    - linux-a1.4xlarge
+    - linux-c5.4xlarge
 
 deploy:
   stage: deploy
@@ -57,4 +57,4 @@ deploy:
   services:
     - docker:dind
   tags:
-    - linux-a1.4xlarge
+    - linux-c5.4xlarge
