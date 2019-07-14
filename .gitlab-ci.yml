@@ -1,0 +1,60 @@
+stages:
+  - build
+  - test
+  - deploy
+
+variables:
+  DOCKER_HOST: tcp://docker:2375/
+  DOCKER_DRIVER: overlay2
+  DOCKER_HUB_IMAGE: coldfusionjp/amazon-linux-clang:2018.03.0.20190514-clang-8.0.1-rc3
+
+build:
+  stage: build
+  only:
+    - master
+  cache:
+    paths:
+      - build/
+  script:
+    - docker pull ${DOCKER_HUB_IMAGE} || true
+    - make
+  image: registry.gitlab.com/coldfusionjp/dockerfiles/gitlab-ci/dockerfiles:latest
+  services:
+    - docker:dind
+  tags:
+    - linux-a1.4xlarge
+
+test:
+  stage: test
+  only:
+    - master
+  dependencies: []
+  cache:
+    policy: pull
+    paths:
+      - build/
+  script:
+    - make test
+  image: registry.gitlab.com/coldfusionjp/dockerfiles/gitlab-ci/dockerfiles:latest
+  services:
+    - docker:dind
+  tags:
+    - linux-a1.4xlarge
+
+deploy:
+  stage: deploy
+  only:
+    - master
+  dependencies: []
+  cache:
+    policy: pull
+    paths:
+      - build/
+  script:
+    - echo ${DOCKER_HUB_PASSWORD} | docker login --username ${DOCKER_HUB_USERNAME} --password-stdin
+    - docker push ${DOCKER_HUB_IMAGE}
+  image: registry.gitlab.com/coldfusionjp/dockerfiles/gitlab-ci/dockerfiles:latest
+  services:
+    - docker:dind
+  tags:
+    - linux-a1.4xlarge
