@@ -1,9 +1,5 @@
 FROM amazonlinux:2018.03.0.20190514 AS stage1
 
-ARG LLVM_GIT_TAG="llvmorg-8.0.0"
-ARG LLVM_CXXFLAGS="-ffunction-sections -fdata-sections"
-ARG LLVM_LDFLAGS="-Wl,--plugin-opt=O2 -Wl,--gc-sections -Wl,--as-needed -Wl,--strip-all"
-
 # lock OS release and library versions to same as base image (2018.03) to ensure binary compatibility
 RUN sed -i 's;^releasever.*;releasever=2018.03;;' /etc/yum.conf && \
 	yum clean all && \
@@ -16,6 +12,7 @@ RUN sed -i 's;^releasever.*;releasever=2018.03;;' /etc/yum.conf && \
 
 # clone desired LLVM tag from GitHub
 WORKDIR /root
+ARG LLVM_GIT_TAG="llvmorg-8.0.0"
 RUN git clone https://github.com/llvm/llvm-project --branch "${LLVM_GIT_TAG}" --single-branch --depth 1
 
 # stage 1: build initial clang/libc++/lld using gcc/stdlibc++/GNU ld
@@ -60,6 +57,8 @@ RUN echo "/usr/local/llvm-stage1/lib" > /etc/ld.so.conf.d/llvm-stage1.conf && ld
 
 # stage 2: build fully optimized clang/libc++/lld using initial clang/libc++/lld built in stage1
 WORKDIR /root/build
+ARG LLVM_CXXFLAGS="-ffunction-sections -fdata-sections"
+ARG LLVM_LDFLAGS="-Wl,--plugin-opt=O2 -Wl,--gc-sections -Wl,--as-needed -Wl,--strip-all"
 RUN cmake3 -G "Unix Makefiles" \
 		-DCMAKE_BUILD_TYPE="MinSizeRel" \
 		-DCMAKE_INSTALL_PREFIX="/usr/local/llvm" \
