@@ -1,4 +1,5 @@
-FROM coldfusionjp/amazon-linux-clang:2018.03.0.20190514-clang-8.0.1-rc3
+ARG LLVM_TEST_BASE_IMAGE=coldfusionjp/amazonlinux-clang:2018.03.0.20190514-llvmorg-8.0.0
+FROM ${LLVM_TEST_BASE_IMAGE}
 
 WORKDIR /root
 COPY test.cpp .
