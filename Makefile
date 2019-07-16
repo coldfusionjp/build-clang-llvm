@@ -42,7 +42,7 @@ build/%.log:
 	@mkdir -p $(dir $@)
 	docker pull $(call dockerHubTag,$@) || true
 	time docker build --build-arg LLVM_GIT_TAG="$(call llvmVersion,$@)" --cache-from $(call dockerHubTag,$@) -t $(call dockerHubTag,$@) -f $(call dockerfile,$@) . | tee $@ ; exit "$${PIPESTATUS[0]}"
-	docker build --build-arg LLVM_TEST_BASE_IMAGE="$(call dockerHubTag,@$)" -t $(call dockerHubTag,$@).test -f $(call dockerfileTest,$@) .
+	docker build --build-arg LLVM_TEST_BASE_IMAGE="$(call dockerHubTag,$@)" -t $(call dockerHubTag,$@).test -f $(call dockerfileTest,$@) .
 	TEST_OUTPUT=`docker run --rm -t $(call dockerHubTag,$@.test) | tr -d '"\r\n'` ; echo "$${TEST_OUTPUT}" ; \
 	if [ "$${TEST_OUTPUT}" != "Hello world!" ] ; then \
 		exit 1 ; \
