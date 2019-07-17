@@ -9,6 +9,9 @@ build:
   stage: build
   only:
     - master
+  cache:
+    paths:
+      - build/
   script:
     - echo ${DOCKER_HUB_PASSWORD} | docker login --username ${DOCKER_HUB_USERNAME} --password-stdin
     - make
