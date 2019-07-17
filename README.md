@@ -4,6 +4,8 @@
 
 Dockerfiles for building and bootstrapping clang/LLVM, including support for libc++ and lld+LTO, directly from the sources available at the GitHub mirror of the LLVM subversion repository (https://github.com/llvm/llvm-project).
 
+CI builds are run on GitLab, using an AWS c5.4xlarge instance to compile LLVM.  The Docker images are made freely available on Docker Hub at: https://hub.docker.com/r/coldfusionjp/amazonlinux-clang .
+
 # Estimated Build Times
 
 Below are approximate build times required to perform a full two-stage bootstap build on various hardware configurations.  Note that building an LTO optimized clang/LLVM requires large amounts of memory.
