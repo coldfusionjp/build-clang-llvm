@@ -15,7 +15,7 @@ build:
   script:
     - echo ${DOCKER_HUB_PASSWORD} | docker login --username ${DOCKER_HUB_USERNAME} --password-stdin
     - make
-  image: registry.gitlab.com/coldfusionjp/dockerfiles/gitlab-ci/dockerfiles:latest
+  image: registry.gitlab.com/coldfusionjp/gitlab-ci:latest
   services:
     - docker:dind
   tags:

@@ -1,6 +1,6 @@
 # build-clang-llvm
 
-[![pipeline status](https://gitlab.com/ColdFusionJP/build-clang-llvm/badges/master/pipeline.svg)](https://gitlab.com/ColdFusionJP/build-clang-llvm/commits/master)
+[![pipeline status](https://gitlab.com/coldfusionjp/build-clang-llvm/badges/master/pipeline.svg)](https://gitlab.com/coldfusionjp/build-clang-llvm/commits/master)
 
 Dockerfiles for building and bootstrapping clang/LLVM, including support for libc++ and lld+LTO, directly from the sources available at the GitHub mirror of the LLVM subversion repository (https://github.com/llvm/llvm-project).
 
