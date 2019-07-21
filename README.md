@@ -6,8 +6,8 @@ Dockerfiles for building the latest versions of a fully optimized, two-stage boo
 
 CI builds are run on GitLab, using an AWS c5.4xlarge instance to compile LLVM.  Docker images based on various Linux distributions with clang preinstalled and ready-to-use are made available on Docker Hub:
 
-Alpine Linux: https://hub.docker.com/r/coldfusionjp/alpine-clang
-Amazon Linux: https://hub.docker.com/r/coldfusionjp/amazonlinux-clang
+* Alpine Linux: https://hub.docker.com/r/coldfusionjp/alpine-clang
+* Amazon Linux: https://hub.docker.com/r/coldfusionjp/amazonlinux-clang
 
 # Estimated Build Times
 
