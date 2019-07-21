@@ -82,7 +82,7 @@ RUN cmake -G "Unix Makefiles" \
 		-DLLVM_ENABLE_PROJECTS="clang;libcxx;libcxxabi;lld" \
 		-DLLVM_HOST_TRIPLE="x86_64-linux-musl" \
 		-DLLVM_ENABLE_LLD="ON" \
-		-DLLVM_ENABLE_LTO="ON" \
+		-DLLVM_ENABLE_LTO="OFF" \
 		-DLLVM_INSTALL_TOOLCHAIN_ONLY="ON" \
 		-DLLVM_INCLUDE_EXAMPLES="OFF" \
 		-DLLVM_INCLUDE_TESTS="OFF" \
