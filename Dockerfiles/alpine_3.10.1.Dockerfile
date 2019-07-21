@@ -55,7 +55,7 @@ COPY --from=stage1 /root/llvm-project ./llvm-project
 COPY --from=stage1 /usr/local/llvm-stage1 /usr/local/llvm-stage1
 
 # add llvm libc++ shared libraries to linker library path
-RUN echo "/lib:/usr/local/lib:/usr/lib:/usr/local/llvm/lib" > /etc/ld-musl-x86_64.path
+RUN echo "/lib:/usr/local/lib:/usr/lib:/usr/local/llvm-stage1/lib" > /etc/ld-musl-x86_64.path
 
 # create links to musl crtbegin/crtend/libgcc in /usr/lib so clang can find them
 RUN ln -s /usr/lib/gcc/x86_64-alpine-linux-musl/8.3.0/crtbeginS.o /usr/lib/crtbeginS.o && \
@@ -82,6 +82,7 @@ RUN cmake -G "Unix Makefiles" \
 		-DLLVM_ENABLE_PROJECTS="clang;libcxx;libcxxabi;lld" \
 		-DLLVM_HOST_TRIPLE="x86_64-linux-musl" \
 		-DLLVM_ENABLE_LLD="ON" \
+		-DLLVM_ENABLE_LTO="ON" \
 		-DLLVM_INSTALL_TOOLCHAIN_ONLY="ON" \
 		-DLLVM_INCLUDE_EXAMPLES="OFF" \
 		-DLLVM_INCLUDE_TESTS="OFF" \
