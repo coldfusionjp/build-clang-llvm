@@ -2,9 +2,12 @@
 
 [![pipeline status](https://gitlab.com/coldfusionjp/build-clang-llvm/badges/master/pipeline.svg)](https://gitlab.com/coldfusionjp/build-clang-llvm/commits/master)
 
-Dockerfiles for building and bootstrapping clang/LLVM, including support for libc++ and lld+LTO, directly from the sources available at the GitHub mirror of the LLVM subversion repository (https://github.com/llvm/llvm-project).
+Dockerfiles for building the latest versions of a fully optimized, two-stage bootstrapped clang/LLVM, including support for libc++ and lld+LTO, directly from the sources available at the GitHub mirror of the LLVM subversion repository (https://github.com/llvm/llvm-project).
 
-CI builds are run on GitLab, using an AWS c5.4xlarge instance to compile LLVM.  The Docker images are made freely available on Docker Hub at: https://hub.docker.com/r/coldfusionjp/amazonlinux-clang .
+CI builds are run on GitLab, using an AWS c5.4xlarge instance to compile LLVM.  Docker images based on various Linux distributions with clang preinstalled and ready-to-use are made available on Docker Hub:
+
+Alpine Linux: https://hub.docker.com/r/coldfusionjp/alpine-clang
+Amazon Linux: https://hub.docker.com/r/coldfusionjp/amazonlinux-clang
 
 # Estimated Build Times
 

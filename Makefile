@@ -1,6 +1,6 @@
 SHELL				:= /bin/bash
-BASE_IMAGES			:= amazonlinux:2018.03.0.20190514
-LLVM_VERSIONS		:= llvmorg-8.0.0 llvmorg-8.0.1-rc3 llvmorg-8.0.1-rc4 llvmorg-8.0.1
+BASE_IMAGES			:= alpine:3.10.1 amazonlinux:2018.03.0.20190514
+LLVM_VERSIONS		:= llvmorg-8.0.1
 
 # generate a list of output build logs for all combinations of base images and LLVM versions
 OUTPUT_TARGETS		:= $(foreach img, $(BASE_IMAGES), $(foreach ver, $(LLVM_VERSIONS), build/$(subst :,+,$(img))+$(ver).log))
