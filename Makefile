@@ -34,19 +34,24 @@ define dockerHubTag
 coldfusionjp/$(call imageName,$(1))-clang:$(call imageTag,$(1))-$(call llvmVersion,$(1))
 endef
 
+# generate a rule to build a given output target from it's Dockerfile
+define generateRule
+$(target): $(call dockerfile,$(target))
+	@mkdir -p $$(dir $$@)
+	time docker build --build-arg LLVM_GIT_TAG="$$(call llvmVersion,$$@)" -t $$(call dockerHubTag,$$@) -f $$< . | tee $$@ ; exit "$$$${PIPESTATUS[0]}"
+	docker build --build-arg LLVM_TEST_BASE_IMAGE="$$(call dockerHubTag,$$@)" -t $$(call dockerHubTag,$$@).test -f $$(call dockerfileTest,$$@) .
+	TEST_OUTPUT=`docker run --rm -t $$(call dockerHubTag,$$@.test) | tr -d '"\r\n'` ; echo "$$$${TEST_OUTPUT}" ; \
+	if [ "$$$${TEST_OUTPUT}" != "Hello world!" ] ; then \
+		exit 1 ; \
+	fi
+	docker push $$(call dockerHubTag,$$@)
+endef
+
 .DELETE_ON_ERROR:
 
 default: $(OUTPUT_TARGETS)
 
-build/%.log:
-	@mkdir -p $(dir $@)
-	time docker build --build-arg LLVM_GIT_TAG="$(call llvmVersion,$@)" -t $(call dockerHubTag,$@) -f $(call dockerfile,$@) . | tee $@ ; exit "$${PIPESTATUS[0]}"
-	docker build --build-arg LLVM_TEST_BASE_IMAGE="$(call dockerHubTag,$@)" -t $(call dockerHubTag,$@).test -f $(call dockerfileTest,$@) .
-	TEST_OUTPUT=`docker run --rm -t $(call dockerHubTag,$@.test) | tr -d '"\r\n'` ; echo "$${TEST_OUTPUT}" ; \
-	if [ "$${TEST_OUTPUT}" != "Hello world!" ] ; then \
-		exit 1 ; \
-	fi
-	docker push $(call dockerHubTag,$@)
+$(foreach target, $(OUTPUT_TARGETS), $(eval $(generateRule)))
 
 clean:
 	rm -rf build
