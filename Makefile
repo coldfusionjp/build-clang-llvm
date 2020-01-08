@@ -1,4 +1,4 @@
-BASE_IMAGES			:= alpine:3.10.1 amazonlinux:2018.03.0.20190514
+BASE_IMAGES			:= amazonlinux:2018.03.0.20190514
 LLVM_VERSIONS		:= llvmorg-9.0.0
 
 # generate a list of output build logs for all combinations of base images and LLVM versions
